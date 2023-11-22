@@ -7,10 +7,12 @@ package com.example.projectout2
     fechaNacimiento: Dato para el perfil.
 
 */
-data class Usuarios(
+data class Usuario(
+
     val nombre: String,
     val apellido: String,
     val password: String,
     val email: String,
     val fechaNacimiento: Int
+
 )
