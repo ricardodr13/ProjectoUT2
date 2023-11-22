@@ -3,7 +3,6 @@ package com.example.projectout2
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,7 +13,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,7 +37,6 @@ fun Login() {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var login by remember { mutableStateOf(false) }
-    var boton by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier
         .padding(16.dp)
@@ -75,10 +72,11 @@ fun Login() {
                 Modifier.padding(top= 32.dp),
                 style = MaterialTheme.typography.labelMedium
             )
-
+            //OnvalueChange aprovechado para cambiar el estado del login a false para quitar el mensaje.
             OutlinedTextField(
                 value = user,
-                onValueChange = { user = it },
+                onValueChange = { user = it
+                                login = false},
                 label = { Text(stringResource(id = R.string.TextField_Email)) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,7 +90,8 @@ fun Login() {
 
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = { password = it
+                    login = false},
                 label = { Text(stringResource(id = R.string.TextField_Password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -113,6 +112,7 @@ fun Login() {
             ) {
                 Text("Log in")
             }
+            //Texto de usuario y contraseña incorrectos al introducir mal los campos.
             if (login) {
                 Text(
                     text = "Usuario y contraseña incorrectos.",

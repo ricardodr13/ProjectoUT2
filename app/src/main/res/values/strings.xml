@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">ProjectoUT2</string>
     <string name="Titulo_app">Proyecto UT2</string>
+    <!-- Strings de Login() -->
     <string name="TextField_Email">Correo electrónico</string>
     <string name="TextField_Password">Contraseña</string>
+    <!-- Fin String de Logins()-->
 </resources>
