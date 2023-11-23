@@ -13,6 +13,7 @@ data class Usuario(
     val apellido: String,
     val password: String,
     val email: String,
-    val fechaNacimiento: Int
+    val fechaNacimiento: Int,
+    val fotoPerfil: Int
 
-)
+    )

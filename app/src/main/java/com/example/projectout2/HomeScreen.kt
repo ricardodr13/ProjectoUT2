@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
@@ -28,10 +29,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,16 +42,23 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HomeScreen() {
 
-    val u1 = Usuario("Ellie", "Apellido1", "contraseña1", "email1", 1)
-    val u2 = Usuario("Zhen", "Apellido2", "contraseña2", "email2", 2)
-    val u3 = Usuario("Ricardo", "Apellido3", "contraseña3", "email3", 3)
+    val u1 = Usuario("Ellie", "Apellido1", "contraseña1", "email1", 1, R.drawable.foto)
+    val u2 = Usuario("Zhen", "Apellido2", "contraseña2", "email2", 2, R.drawable.foto)
+    val u3 = Usuario("Ricardo", "Apellido3", "contraseña3", "email3", 3, R.drawable.foto)
 
-    val p1 = Publicacion(u1, R.drawable.foto, "22/11", "22.21", "Foto en negro", 53)
-    val p2 = Publicacion(u1, R.drawable.foto, "22/11", "22.21", "Foto en negro", 53)
-    val p3 = Publicacion(u2, R.drawable.foto, "22/11", "22.21", "Foto en negro", 53)
-    val p4 = Publicacion(u2, R.drawable.foto, "22/11", "22.21", "Foto en negro", 53)
-    val p5 = Publicacion(u3, R.drawable.foto, "22/11", "22.21", "Foto en negro", 53)
-    val p6 = Publicacion(u3, R.drawable.foto, "22/11", "22.21", "Foto en negro", 53)
+    val p1 = Publicacion(
+        u1,
+        R.drawable.foto,
+        "17/6",
+        "17:17",
+        "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
+        48
+    )
+    val p2 = Publicacion(u1, R.drawable.foto, "18/7", "18:18", "Foto en negro", 49)
+    val p3 = Publicacion(u2, R.drawable.foto, "19/8", "19:19", "Foto en negro", 50)
+    val p4 = Publicacion(u2, R.drawable.foto, "20/9", "20:20", "Foto en negro", 51)
+    val p5 = Publicacion(u3, R.drawable.foto, "21/10", "21:21", "Foto en negro", 52)
+    val p6 = Publicacion(u3, R.drawable.foto, "22/11", "22:22", "Foto en negro", 53)
     val listaPublicaciones = listOf(p1, p2, p3, p4, p5, p6)
 
     val color = Color(0xffE91E63)
@@ -71,13 +81,28 @@ fun HomeScreen() {
 
                 item {
                     Card(
-                        modifier = Modifier.size(width = 300.dp, height = 300.dp)
+                        modifier = Modifier.padding(10.dp)
                     ) {
                         Column {
                             Box {
-                                Text(
-                                    text = "@" + p.usuario.nombre,
-                                )
+                                Row(
+                                    modifier = Modifier.padding(10.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+
+                                    Image(
+                                        painter = painterResource(id = p.usuario.fotoPerfil),
+                                        contentDescription = "Foto de perfil",
+                                        modifier = Modifier
+                                            .clip(CircleShape)
+                                            .size(40.dp)
+                                    )
+                                    Text(
+                                        text = "@" + p.usuario.nombre,
+                                        modifier = Modifier.padding(10.dp, 0.dp)
+                                    )
+                                }
+
                             }
 
                             Box {
@@ -86,14 +111,17 @@ fun HomeScreen() {
                                     contentDescription = p.descripcion,
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(0.dp, 20.dp)
+                                        .padding(0.dp, 10.dp, 0.dp, 5.dp)
                                 )
                             }
 
                             Box {
-                                Column {
-                                    Text(text = p.fecha + "." + p.hora)
-                                    Text(text = p.descripcion)
+                                Column(modifier = Modifier.padding(10.dp)) {
+                                    Text(
+                                        text = "Fecha: " + p.fecha + "; Hora: " + p.hora,
+                                        fontSize = 15.sp
+                                    )
+                                    Text(text = p.descripcion, fontSize = 20.sp)
                                 }
 
                             }
@@ -102,7 +130,11 @@ fun HomeScreen() {
 
                     }
 
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 
                         Text(text = "" + p.likes)
 
