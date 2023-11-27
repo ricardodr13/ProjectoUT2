@@ -5,4 +5,10 @@
     <string name="TextField_Email">Correo electrónico</string>
     <string name="TextField_Password">Contraseña</string>
     <!-- Fin String de Logins()-->
+    <!-- Strings de DataChangeScreen() -->
+    <string name="TextField_Nombre">Nombre</string>
+    <string name="TextField_Apellidos">Apellidos</string>
+    <string name="TextField_UserName">Nombre de Usuario</string>
+    <string name="TextField_Fecha">Fecha de Nacimiento</string>
+    <!-- Fin String de DataChangeScreen()-->
 </resources>
