@@ -29,12 +29,14 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+// pedir (vm: UsuarioViewModel) como atributo
 fun DataChangeScreen() {
     var nombre by remember { mutableStateOf("") }
     var apellidos by remember { mutableStateOf("") }
     var usuario by remember { mutableStateOf("") }
     var fechaDeNacimiento by remember { mutableStateOf("") }
 
+    //Creacion del snackbarHost
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     SnackbarHost(hostState = snackbarHostState,Modifier.wrapContentHeight(Alignment.Bottom))
@@ -130,6 +132,7 @@ fun DataChangeScreen() {
             ) {
                 Button(
                     onClick = {
+                        // lanzamos el snackbarHost con una duracion corta(por defecto)
                         scope.launch {
                             snackbarHostState.showSnackbar("Datos Guardados")
                         }

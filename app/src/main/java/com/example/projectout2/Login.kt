@@ -34,6 +34,7 @@ import com.example.projectout2.ui.theme.ProjectoUT2Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+// pedir (vm: UsuarioViewModel) como atributo
 fun Login() {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -107,6 +108,7 @@ fun Login() {
             Button(
                 onClick = {
                     // implementar NavHost -> HomeScreen
+                    // implementar UsuarioViewModel.obtenerUsuario(usuario)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.example.projectout2.ui.theme.ProjectoUT2Theme
 
 @Composable
+// pedir (vm: UsuarioViewModel) como atributo
 fun ProfileScreen() {
 
     Column(
