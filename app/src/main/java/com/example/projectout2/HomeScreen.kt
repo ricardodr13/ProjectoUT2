@@ -46,7 +46,7 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
         })
     }, floatingActionButton = {
         FloatingActionButton(onClick = {}) {
-            Icon(Icons.Default.Add, contentDescription = "Add")
+            Icon(Icons.Default.Add, contentDescription = null)
         }
     }) { innerPadding ->
         LazyColumn(
@@ -70,13 +70,13 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
 
                                     Image(
                                         painter = painterResource(id = p.usuario.fotoPerfil),
-                                        contentDescription = "Foto de perfil",
+                                        contentDescription = null,
                                         modifier = Modifier
                                             .clip(CircleShape)
                                             .size(40.dp)
                                     )
                                     Text(
-                                        text = "@" + p.usuario.nombre,
+                                        text = "@" + p.usuario.nombreUsuario,
                                         modifier = Modifier.padding(10.dp, 0.dp)
                                     )
                                 }
@@ -86,7 +86,7 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
                             Box {
                                 Image(
                                     painter = painterResource(p.imagen),
-                                    contentDescription = p.descripcion,
+                                    contentDescription = null,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(0.dp, 10.dp, 0.dp, 5.dp)
@@ -99,7 +99,7 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
                                         text = "Fecha: " + p.fecha + "; Hora: " + p.hora,
                                         fontSize = 15.sp
                                     )
-                                    Text(text = p.descripcion, fontSize = 20.sp)
+                                    Text(text = p.titulo, fontSize = 20.sp)
                                 }
 
                             }

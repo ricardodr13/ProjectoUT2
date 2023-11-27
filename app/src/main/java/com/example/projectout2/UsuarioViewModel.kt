@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel
 class UsuarioViewModel : ViewModel() {
 
     // Variable de estado que almacena el usuario logueado
-    private var _user: Usuario by mutableStateOf(Usuario("","","","",1,1))
+    private var _user: Usuario by mutableStateOf(Usuario("","","","","",1,1))
 
     // Getters para poder sacar los datos del usuario.
+    val nombreUsuario get() = _user.nombreUsuario
     val nombre get() = _user.nombre
     val apellido get() = _user.apellido
     val email get() = _user.email

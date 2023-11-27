@@ -24,7 +24,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val usuarioViewModel: UsuarioViewModel = viewModel<UsuarioViewModel>()
-                    Inicio()
+                    val usuarios = generarListaUsuarios()
+                    val publicaciones = generarListaPublicaciones(usuarios)
+                    PostScreen(publicaciones[1])
+                    //HomeScreen(publicaciones)
                 }
             }
         }

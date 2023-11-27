@@ -14,17 +14,21 @@ data class Publicacion(
     val imagen: Int,
     val fecha: String,
     val hora: String,
+    val titulo: String,
     val descripcion: String,
     var likes: Int
 
 )
+
 //Funcion a la que se introduce una lista de usuarios y crea dos publicaciones por usuario
 fun generarListaPublicaciones(usuarios: List<Usuario>): List<Publicacion> {
     val publicaciones = mutableSetOf<Publicacion>()
 
     for (u: Usuario in usuarios) {
-        val publicacion1=Publicacion(u,R.drawable.foto,"13/11","19:09","Foto en negro",93)
-        val publicacion2=Publicacion(u,R.drawable.foto,"31/02","09:19","Foto en negro",39)
+        val publicacion1 =
+            Publicacion(u, R.drawable.foto, "13/11", "19:09", "Titulo1", "Descripcion1", 93)
+        val publicacion2 =
+            Publicacion(u, R.drawable.foto, "31/02", "09:19", "Titulo2", "Descripcion2", 39)
         publicaciones.add(publicacion1)
         publicaciones.add(publicacion2)
     }
