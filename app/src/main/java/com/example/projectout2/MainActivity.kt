@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
                     val publicaciones = generarListaPublicaciones(usuarios)
                     PostScreen(publicaciones[1])
                     //HomeScreen(publicaciones)
+                    //SearchScreen(usuarios)
                 }
             }
         }
