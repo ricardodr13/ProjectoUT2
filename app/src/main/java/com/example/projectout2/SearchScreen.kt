@@ -2,24 +2,34 @@ package com.example.projectout2
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,57 +47,105 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(listaUsuarios: List<Usuario>) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
 
-                    var usuarioBuscado by remember { mutableStateOf("") }
-                    var listaUsuariosFiltrada by remember { mutableStateOf(listaUsuarios) }
-
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(10.dp)
-                    ) {
+        var usuarioBuscado by remember { mutableStateOf("") }
+        var listaUsuariosFiltrada by remember { mutableStateOf(listaUsuarios) }
 
 
-                        item {
 
-                            Buscador() { opcionSeleccionada ->
-                                usuarioBuscado = opcionSeleccionada
-                                listaUsuariosFiltrada = if (usuarioBuscado == "") {
-                                    listaUsuarios
-                                } else {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Row(
+                            modifier = Modifier
+                                .padding(end = 20.dp, top = 10.dp)
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Box(modifier = Modifier
+                                .height(88.dp)
+                                .fillMaxWidth(0.75f)
+                                .padding(top = 15.dp, end = 20.dp, bottom = 15.dp, start = 5.dp))
+                            {
+                                TextField(
+                                    value = usuarioBuscado,
+                                    onValueChange = { value ->
+                                        usuarioBuscado = value
+                                    },
+                                    label = { Text(text = "Buscar por usuario...") },
+                                    singleLine = true,
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(22.dp))
+                                )
+                            }
 
-                                    listaUsuarios.filter { Usuario ->
-                                        Usuario.nombreUsuario.contains(
-                                            usuarioBuscado,
-                                            ignoreCase = true
-                                        )
-                                    }.toMutableList()
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Spacer(modifier = Modifier.padding(top = 7.dp))
+                                Button(
+                                    onClick = {
+                                        listaUsuariosFiltrada = if (usuarioBuscado == "") {
+                                            listaUsuarios
+                                        } else {
+                                            listaUsuarios.filter { Usuario ->
+                                                Usuario.nombreUsuario.contains(
+                                                    usuarioBuscado,
+                                                    ignoreCase = true
+                                                )
+                                            }.toMutableList()
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .padding(top = 10.dp)
+                                        .fillMaxWidth()
+                                ) {
+                                    Text(text = "Buscar")
                                 }
                             }
                         }
-
-
-                        items(listaUsuariosFiltrada) { usuario ->
-                            Elemento(usuario)
-                            Divider()
-                        }
                     }
 
-
-                    if (listaUsuariosFiltrada.isEmpty())
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Sin resultados")
-                        }
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = {}) {
+                    Icon(Icons.Default.Add, contentDescription = "Add")
                 }
+            }
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+
+
+                items(listaUsuariosFiltrada) { usuario ->
+                    Elemento(usuario)
+                    Divider()
+                }
+            }
+
+
+            if (listaUsuariosFiltrada.isEmpty())
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Sin resultados")
+                }
+        }
+    }
 }
 
 
@@ -120,41 +178,8 @@ fun Elemento(usuario: Usuario) {
                     append(usuario.nombreUsuario)
                 }
             }
-            Text(text = "@"+secondaryText)
+            Text(text = "@" + secondaryText)
         }
     )
 }
 
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Buscador(
-    onOptionSelected: (String) -> Unit
-) {
-    var buscar by remember { mutableStateOf("") }
-
-    Row(modifier = Modifier.fillMaxSize()) {
-        TextField(
-            value = buscar,
-            onValueChange = { value ->
-                buscar = value
-            },
-            label = { Text(text = "Buscar por usuario...") },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .padding(15.dp)
-        )
-
-        Box(modifier = Modifier.fillMaxHeight()) {
-            Button(
-                onClick = {
-                    onOptionSelected(buscar)
-                },
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(text = "Buscar")
-            }
-        }
-    }
-}

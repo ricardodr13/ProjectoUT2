@@ -26,9 +26,9 @@ class MainActivity : ComponentActivity() {
                     val usuarioViewModel: UsuarioViewModel = viewModel<UsuarioViewModel>()
                     val usuarios = generarListaUsuarios()
                     val publicaciones = generarListaPublicaciones(usuarios)
-                    PostScreen(publicaciones[1])
+                    //PostScreen(publicaciones[1])
                     //HomeScreen(publicaciones)
-                    //SearchScreen(usuarios)
+                    SearchScreen(usuarios)
                 }
             }
         }
