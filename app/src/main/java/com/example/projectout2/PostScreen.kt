@@ -2,13 +2,13 @@ package com.example.projectout2
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -28,8 +28,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,48 +61,60 @@ fun PostScreen(publicacion: Publicacion) {
         })
     }) { innerPadding ->
 
-        Column(
+        LazyColumn(
             Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            Box(Modifier.fillMaxWidth()){
+            item {
                 Image(
                     painter = painterResource(id = publicacion.imagen),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop
                 )
-            }
 
-            Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.Center) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    modifier = Modifier.padding(20.dp, 0.dp),
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = "Fecha: " + publicacion.fecha + ". Hora: " + publicacion.hora,
-                        Modifier.weight(10f)
-                    )
-
-                    var liked by remember { mutableStateOf(false) }
-
-                    Text(text = "" + publicacion.likes)
-
-                    IconToggleButton(checked = liked, onCheckedChange = {
-                        liked = !liked
-                        if (liked) {
-                            publicacion.likes += 1
-                        } else {
-                            publicacion.likes -= 1
-                        }
-                    }) {
-                        Icon(
-                            tint = Color(0xffE91E63), imageVector = if (liked) {
-                                Icons.Filled.Favorite
-                            } else {
-                                Icons.Default.FavoriteBorder
-                            }, contentDescription = null
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = publicacion.fecha + " · " + publicacion.hora,
+                            modifier = Modifier.weight(10f),
+                            fontSize = 15.sp,
+                            fontStyle = FontStyle.Italic
                         )
+
+                        var liked by remember { mutableStateOf(false) }
+
+                        Text(text = "" + publicacion.likes)
+
+                        IconToggleButton(checked = liked, onCheckedChange = {
+                            liked = !liked
+                            if (liked) {
+                                publicacion.likes += 1
+                            } else {
+                                publicacion.likes -= 1
+                            }
+                        }) {
+                            Icon(
+                                tint = Color(0xffE91E63), imageVector = if (liked) {
+                                    Icons.Filled.Favorite
+                                } else {
+                                    Icons.Default.FavoriteBorder
+                                }, contentDescription = null
+                            )
+                        }
                     }
+                    Text(
+                        text = publicacion.titulo,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(text = publicacion.descripcion, fontSize = 15.sp)
                 }
             }
         }

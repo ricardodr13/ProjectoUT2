@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -96,10 +97,14 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
                             Box {
                                 Column(modifier = Modifier.padding(10.dp)) {
                                     Text(
-                                        text = "Fecha: " + p.fecha + "; Hora: " + p.hora,
+                                        text = p.fecha + " · " + p.hora,
+                                        fontSize = 15.sp,
+                                        fontStyle = FontStyle.Italic
+                                    )
+                                    Text(
+                                        text = p.descripcion,
                                         fontSize = 15.sp
                                     )
-                                    Text(text = p.titulo, fontSize = 20.sp)
                                 }
 
                             }
@@ -136,13 +141,8 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
                             )
                         }
                     }
-
-
                 }
-
             }
-
         }
-
     }
 }
