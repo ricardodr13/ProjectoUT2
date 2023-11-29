@@ -24,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +40,7 @@ import com.example.projectout2.ui.theme.ProjectoUT2Theme
 @Composable
 // pedir (vm: UsuarioViewModel) como atributo
 fun ProfileScreen() {
-
+    val openAlertDialog = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +111,9 @@ fun ProfileScreen() {
                         color = Color.Black
                     )
                     Icon(
-                        Icons.Filled.KeyboardArrowRight, contentDescription = "a",tint = Color.Black
+                        Icons.Filled.KeyboardArrowRight,
+                        contentDescription = "a",
+                        tint = Color.Black
                     )
                 }
             }
@@ -128,11 +132,13 @@ fun ProfileScreen() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Seguridad",
+                    Text(
+                        "Seguridad",
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
-                    Icon(Icons.Filled.KeyboardArrowRight,
+                    Icon(
+                        Icons.Filled.KeyboardArrowRight,
                         contentDescription = "a",
                         tint = Color.Black
                     )
@@ -142,12 +148,26 @@ fun ProfileScreen() {
 
         Button(
             onClick = {
-                // Volver a la pantalla de login
+                openAlertDialog.value = true
             }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(32.dp)
         ) {
             Text(text = "Log out")
+        }
+        when {
+            openAlertDialog.value -> {
+                PopUpLogin(
+                    onDismissRequest = { openAlertDialog.value = false },
+                    onConfirmation = {
+                        openAlertDialog.value = false
+                        println("Saliendo...")
+                        // logica para volver al login
+                    },
+                    dialogTitle = "Alert dialog example",
+                    dialogText = "This is an example of an alert dialog with buttons."
+                )
+            }
         }
     }
 }
