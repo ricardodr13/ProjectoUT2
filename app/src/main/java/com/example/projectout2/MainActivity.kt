@@ -43,3 +43,4 @@ fun Inicio(vm:UsuarioViewModel,publicaciones:List<Publicacion>,usuarios:List<Usu
         composable("Registro") { SignupScreen(navController,usuarios) }
     }
 }
+
