@@ -40,6 +40,6 @@ fun Inicio(vm:UsuarioViewModel,publicaciones:List<Publicacion>,usuarios:List<Usu
     NavHost(navController = navController, startDestination = "Login") {
         composable("Login") { Login(vm,navController) }
         composable("Programa") { Programa(vm,publicaciones,usuarios,navController) }
-        composable("Registro") { SignupScreen(navController,usuarios) }
+        //composable("Registro") { SignupScreen(navController,usuarios) }
     }
 }

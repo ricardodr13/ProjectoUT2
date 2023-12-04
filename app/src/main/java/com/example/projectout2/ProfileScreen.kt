@@ -226,7 +226,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                             .fillMaxWidth()
                     ) {
                         OutlinedButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { ncPrograma.navigate("Datos") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
@@ -252,7 +252,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                             }
                         }
                         OutlinedButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { ncPrograma.navigate("Seguridad") },
                             Modifier
                                 .height(50.dp)
                                 .fillMaxWidth(),
@@ -296,7 +296,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                                 onConfirmation = {
                                     openAlertDialog.value = false
                                     println("Saliendo...")
-                                    // logica para volver al login
+                                    navController.navigate("Login")
                                 },
                                 dialogTitle = "Alert dialog example",
                                 dialogText = "This is an example of an alert dialog with buttons."
