@@ -21,6 +21,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,7 +67,10 @@ fun DataChangeScreen(vm: UsuarioViewModel,bottonPadding: PaddingValues,navContro
                     modifier = Modifier.padding(10.dp, 0.dp)
                 )
             }
-        })
+        },
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary))
     }) { innerPadding ->
         Column(
             modifier = Modifier

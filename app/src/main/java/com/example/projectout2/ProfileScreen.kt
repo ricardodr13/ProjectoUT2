@@ -35,6 +35,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -63,12 +64,15 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
     Scaffold(topBar = {
         TopAppBar(title = {
             Text("Login")
-        })
+        },
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary))
     }) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top=innerPadding.calculateTopPadding(), bottom =bottonPadding.calculateBottomPadding()),
+                .padding(top=innerPadding.calculateTopPadding()+5.dp, bottom =bottonPadding.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -121,7 +125,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                 if (state == 0){
                     LazyColumn(
                         Modifier
-                            .padding(innerPadding)
+                            .padding()
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -222,7 +226,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                     Column(
                         verticalArrangement = Arrangement.Top,
                         modifier = Modifier
-                            .padding(top = 50.dp)
+                            .padding(top = 5.dp)
                             .fillMaxWidth()
                     ) {
                         OutlinedButton(
@@ -298,8 +302,8 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                                     println("Saliendo...")
                                     navController.navigate("Login")
                                 },
-                                dialogTitle = "Alert dialog example",
-                                dialogText = "This is an example of an alert dialog with buttons."
+                                dialogTitle = "Log Out",
+                                dialogText = "¿Desea volver a la pantalla de Login?"
                             )
                         }
                     }
