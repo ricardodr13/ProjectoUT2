@@ -2,7 +2,6 @@ package com.example.projectout2
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +23,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,23 +56,36 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 //pasar el navhost como parametro adicional
-fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncPrograma: NavController, navController: NavController, bottonPadding: PaddingValues, OnClickPost:(Publicacion) -> Unit) {
+fun ProfileScreen(
+    publicaciones: List<Publicacion>,
+    vm: UsuarioViewModel,
+    ncPrograma: NavController,
+    navController: NavController,
+    bottonPadding: PaddingValues,
+    OnClickPost: (Publicacion) -> Unit
+) {
     val openAlertDialog = remember { mutableStateOf(false) }
     var state by remember { mutableStateOf(0) }
 
     val titles = listOf("Publicaciones", "Ajustes")
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text("Login")
-        },
+        TopAppBar(
+            title = {
+                Text("Login")
+            },
             colors = TopAppBarDefaults.smallTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary))
+                titleContentColor = MaterialTheme.colorScheme.primary
+            )
+        )
     }) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top=innerPadding.calculateTopPadding()+5.dp, bottom =bottonPadding.calculateBottomPadding()),
+                .padding(
+                    top = innerPadding.calculateTopPadding() + 5.dp,
+                    bottom = bottonPadding.calculateBottomPadding()
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -105,7 +118,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
 
                 //cambiar los textos por los datos del usuario.
                 Text(
-                    text = vm.nombre +" "+ vm.apellido,
+                    text = vm.nombre + " " + vm.apellido,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.headlineLarge
                 )
@@ -116,13 +129,13 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                 TabRow(selectedTabIndex = state) {
                     titles.forEachIndexed { index, title ->
                         Tab(
-                            text = {Text(title)},
+                            text = { Text(title) },
                             onClick = { state = index },
                             selected = (index == state)
                         )
                     }
                 }
-                if (state == 0){
+                if (state == 0) {
                     LazyColumn(
                         Modifier
                             .padding()
@@ -133,8 +146,12 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                             if (p.usuario.nombreUsuario == vm.nombreUsuario) {
                                 item {
                                     Card(
-                                        modifier = Modifier.padding(10.dp)
-                                            .clickable { OnClickPost(p) }
+                                        onClick={OnClickPost(p)},
+                                        modifier = Modifier
+                                            .padding(10.dp),
+                                        colors = CardDefaults.cardColors(
+                                            containerColor = Color.LightGray,
+                                        )
                                     ) {
                                         Column {
                                             Box {
@@ -220,7 +237,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncProgr
                     }
                 }
 
-                if(state == 1){
+                if (state == 1) {
 
                     //Esta Columna contiene los 2 botones para ir a cambiar los datos personales y el de seguridad.
                     Column(

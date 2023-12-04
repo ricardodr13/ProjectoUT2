@@ -1,7 +1,6 @@
 package com.example.projectout2
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -56,24 +56,28 @@ fun HomeScreen(
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
             navegacion.navigate("Nuevo Post")
-        },modifier= Modifier.padding(bottomPadding)) {
+        }, modifier = Modifier.padding(bottomPadding)) {
             Icon(Icons.Default.Add, contentDescription = null)
         }
     }) { innerPadding ->
         LazyColumn(
             Modifier
-                .padding(top=innerPadding.calculateTopPadding(), bottom =bottomPadding.calculateBottomPadding())
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = bottomPadding.calculateBottomPadding()
+                )
+                .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             for (p: Publicacion in publicaciones) {
 
                 item {
-                    Card(modifier = Modifier
-                        .padding(10.dp)
-                        .clickable {
-                            onClickPost(p)
-                        }) {
+                    Card(
+                        onClick = { onClickPost(p) },
+                        modifier = Modifier.padding(10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.LightGray,
+                        )
+                    ) {
                         Column() {
                             Box {
                                 Row(
