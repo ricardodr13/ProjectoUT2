@@ -20,7 +20,10 @@ class UsuarioViewModel : ViewModel() {
     val fotoPerfil get() = _user.fotoPerfil
 
     // Funcion para inicializar el usuario que se a logueado
-    fun obtenerUsuario(u: Usuario) {
-        _user = u
+    fun obtenerUsuario(u: Usuario?) {
+        if (u != null) {
+            _user = u
+        }
+        else Usuario("","","","","",1,1)
     }
 }

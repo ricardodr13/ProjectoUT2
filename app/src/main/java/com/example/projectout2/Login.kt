@@ -30,16 +30,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
 import com.example.projectout2.ui.theme.ProjectoUT2Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// pedir (vm: UsuarioViewModel) como atributo
-fun Login() {
+fun Login(vm: UsuarioViewModel,navController: NavController) {
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var login by remember { mutableStateOf(false) }
-
     Column(modifier = Modifier
         .padding(16.dp)
         .width(250.dp),
@@ -107,8 +107,10 @@ fun Login() {
             .padding(horizontal = 50.dp)) {
             Button(
                 onClick = {
-                    // implementar NavHost -> HomeScreen
-                    // implementar UsuarioViewModel.obtenerUsuario(usuario)
+                    vm.obtenerUsuario(Comprobar(user,password))
+                    if(vm.nombre!=""){
+                        navController.navigate("Programa")
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -128,14 +130,5 @@ fun Login() {
                 )
             }
         }
-    }
-}
-
-//Preview de la pantalla login
-@Preview(showBackground = true)
-@Composable
-fun LoginPreview() {
-    ProjectoUT2Theme {
-        Login()
     }
 }

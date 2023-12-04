@@ -2,9 +2,11 @@ package com.example.projectout2
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,15 +50,16 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 //pasar el navhost como parametro adicional
-fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel) {
+fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel,ncPrograma: NavController, navController: NavController, bottonPadding: PaddingValues, OnClickPost:(Publicacion) -> Unit) {
     val openAlertDialog = remember { mutableStateOf(false) }
     var state by remember { mutableStateOf(0) }
-    val titles = listOf("Publicaciones", "Ajustes")
 
+    val titles = listOf("Publicaciones", "Ajustes")
     Scaffold(topBar = {
         TopAppBar(title = {
             Text("Login")
@@ -65,7 +68,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(top=innerPadding.calculateTopPadding(), bottom =bottonPadding.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -127,6 +130,7 @@ fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel) {
                                 item {
                                     Card(
                                         modifier = Modifier.padding(10.dp)
+                                            .clickable { OnClickPost(p) }
                                     ) {
                                         Column {
                                             Box {

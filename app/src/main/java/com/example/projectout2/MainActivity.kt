@@ -6,11 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.projectout2.ui.theme.ProjectoUT2Theme
 
 class MainActivity : ComponentActivity() {
@@ -23,12 +24,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val usuarioViewModel: UsuarioViewModel = viewModel<UsuarioViewModel>()
+                    var vm: UsuarioViewModel = viewModel<UsuarioViewModel>()
                     val usuarios = generarListaUsuarios()
                     val publicaciones = generarListaPublicaciones(usuarios)
-                    //PostScreen(publicaciones[1])
-                    //HomeScreen(publicaciones)
-                    SearchScreen(usuarios)
+                    Inicio(vm,publicaciones,usuarios)
                 }
             }
         }
@@ -36,16 +35,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Inicio() {
-    Text(
-        text = "Hola"
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ProjectoUT2Theme {
-        Inicio()
+fun Inicio(vm:UsuarioViewModel,publicaciones:List<Publicacion>,usuarios:List<Usuario>) {
+    var navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "Login") {
+        composable("Login") { Login(vm,navController) }
+        composable("Programa") { Programa(vm,publicaciones,usuarios,navController) }
+        composable("Registro") { SignupScreen(navController,usuarios) }
     }
 }

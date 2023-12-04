@@ -2,6 +2,7 @@ package com.example.projectout2
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -32,8 +33,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// pedir (vm: UsuarioViewModel) como atributo
-fun SecurityScreen() {
+fun SecurityScreen(bottonPadding: PaddingValues) {
     var pass by remember { mutableStateOf("") }
     var rPass by remember { mutableStateOf("") }
 
@@ -45,7 +45,7 @@ fun SecurityScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 64.dp),
+            .padding(top = 64.dp, bottom = bottonPadding.calculateBottomPadding()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -112,14 +112,5 @@ fun SecurityScreen() {
                 Text("Guardar Cambios")
             }
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
-@Composable
-fun SecurityScreenPreview() {
-    ProjectoUT2Theme {
-        SecurityScreen()
     }
 }

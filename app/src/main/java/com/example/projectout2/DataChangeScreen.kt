@@ -2,6 +2,7 @@ package com.example.projectout2
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 //pasar el navhost como parametro adicional
-fun DataChangeScreen(vm: UsuarioViewModel) {
+fun DataChangeScreen(vm: UsuarioViewModel,bottonPadding: PaddingValues) {
     var nombre by remember { mutableStateOf(vm.nombre) }
     var apellidos by remember { mutableStateOf(vm.apellido) }
     var usuario by remember { mutableStateOf(vm.nombreUsuario) }
@@ -46,7 +47,7 @@ fun DataChangeScreen(vm: UsuarioViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 64.dp),
+                .padding(top= 10.dp, bottom = bottonPadding.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {

@@ -23,9 +23,18 @@ data class Usuario(
 //Funcion para generar tres usuarios determinados
 fun generarListaUsuarios(): List<Usuario> {
 
-    val u1 = Usuario("Elrecoal","Ellie", "Apellido1", "contraseña1", "email1", 1, R.drawable.foto)
-    val u2 = Usuario("Pepe","Zhen Yu", "Apellido2", "contraseña2", "email2", 2, R.drawable.foto)
-    val u3 = Usuario("Ricardoooo","Ricardo", "Apellido3", "contraseña3", "email3", 3, R.drawable.foto)
+    val u1 = Usuario("Elrecoal","Ellie", "Apellido1", "1", "1", 1, R.drawable.foto)
+    val u2 = Usuario("Pepe","Zhen Yu", "Apellido2", "2", "2", 2, R.drawable.foto)
+    val u3 = Usuario("Ricardoooo","Ricardo", "Apellido3", "3", "3", 3, R.drawable.foto)
     return listOf(u1,u2,u3)
 
+}
+fun Comprobar(email:String,password:String): Usuario? {
+    var listaUsuarios = generarListaUsuarios()
+    for (usuario in listaUsuarios){
+        if (email.equals(usuario.email)&& password.equals(usuario.password)){
+            return usuario
+        }
+    }
+    return null
 }
