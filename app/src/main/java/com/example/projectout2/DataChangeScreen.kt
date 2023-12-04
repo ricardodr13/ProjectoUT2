@@ -24,22 +24,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.example.projectout2.ui.theme.ProjectoUT2Theme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// pedir (vm: UsuarioViewModel) como atributo
-fun DataChangeScreen() {
-    var nombre by remember { mutableStateOf("") }
-    var apellidos by remember { mutableStateOf("") }
-    var usuario by remember { mutableStateOf("") }
-    var fechaDeNacimiento by remember { mutableStateOf("") }
+//pasar el navhost como parametro adicional
+fun DataChangeScreen(vm: UsuarioViewModel) {
+    var nombre by remember { mutableStateOf(vm.nombre) }
+    var apellidos by remember { mutableStateOf(vm.apellido) }
+    var usuario by remember { mutableStateOf(vm.nombreUsuario) }
+    var fechaDeNacimiento by remember { mutableStateOf(vm.fechaNacimiento.toString()) }
 
     //Creacion del snackbarHost
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     SnackbarHost(hostState = snackbarHostState,Modifier.wrapContentHeight(Alignment.Bottom))
+
 
         Column(
             modifier = Modifier
@@ -146,11 +148,3 @@ fun DataChangeScreen() {
             }
         }
     }
-
-@Preview(showBackground = true)
-@Composable
-fun DataChangeScreenPreview() {
-    ProjectoUT2Theme {
-        DataChangeScreen()
-    }
-}

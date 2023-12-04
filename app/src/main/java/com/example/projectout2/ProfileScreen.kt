@@ -11,171 +11,298 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.projectout2.ui.theme.ProjectoUT2Theme
+import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-// pedir (vm: UsuarioViewModel) como atributo
-fun ProfileScreen() {
+//pasar el navhost como parametro adicional
+fun ProfileScreen(publicaciones: List<Publicacion>, vm: UsuarioViewModel) {
     val openAlertDialog = remember { mutableStateOf(false) }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 64.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
+    var state by remember { mutableStateOf(0) }
+    val titles = listOf("Publicaciones", "Ajustes")
 
-        //esta caja contiene la imagen de perfil del usuario y el boton para editarla
-        Box(contentAlignment = Alignment.BottomEnd) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "imagen",
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(200.dp),
-                contentScale = ContentScale.Crop
-            )
-            IconButton(
-                onClick = {
-                    // boton inutil
-                },
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(color = Color.Gray)
-                    .size(50.dp)
-            ) {
-                Icon(Icons.Filled.Edit, contentDescription = "a")
-            }
-        }
-
-        //Esta columna contiene los datos del usuario (nombre y nombre de usuario)
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            //cambiar los textos por los datos del usuario.
-            Text(
-                "Ricardo Gómez",
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Text("@ricardodr13", style = MaterialTheme.typography.titleMedium)
-        }
-
-        //Esta Columna contiene los 2 botones para ir a cambiar los datos personales y el de seguridad.
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text("Login")
+        })
+    }) { innerPadding ->
         Column(
-            verticalArrangement = Arrangement.Top,
             modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxWidth()
+                .fillMaxSize()
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            OutlinedButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(0.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
-            )
-            {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        "Cambiar datos personales",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Icon(
-                        Icons.Filled.KeyboardArrowRight,
-                        contentDescription = "a",
-                        tint = Color.Black
-                    )
-                }
-            }
-            OutlinedButton(
-                onClick = { /*TODO*/ },
-                Modifier
-                    .height(50.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(0.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
 
-            )
-            {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        "Seguridad",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Icon(
-                        Icons.Filled.KeyboardArrowRight,
-                        contentDescription = "a",
-                        tint = Color.Black
-                    )
-                }
-            }
-        }
-
-        Button(
-            onClick = {
-                openAlertDialog.value = true
-            }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-        ) {
-            Text(text = "Log out")
-        }
-        when {
-            openAlertDialog.value -> {
-                PopUpLogin(
-                    onDismissRequest = { openAlertDialog.value = false },
-                    onConfirmation = {
-                        openAlertDialog.value = false
-                        println("Saliendo...")
-                        // logica para volver al login
-                    },
-                    dialogTitle = "Alert dialog example",
-                    dialogText = "This is an example of an alert dialog with buttons."
+            //esta caja contiene la imagen de perfil del usuario y el boton para editarla
+            Box(contentAlignment = Alignment.BottomEnd) {
+                Image(
+                    painter = painterResource(id = vm.fotoPerfil),
+                    contentDescription = "imagen",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(200.dp),
+                    contentScale = ContentScale.Crop
                 )
+                IconButton(
+                    onClick = {
+                        // boton inutil
+                    },
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(color = Color.Gray)
+                        .size(50.dp)
+                ) {
+                    Icon(Icons.Filled.Edit, contentDescription = "cambiar imagen")
+                }
             }
-        }
-    }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun ProfileScreenPreview() {
-    ProjectoUT2Theme {
-        ProfileScreen()
+            //Esta columna contiene los datos del usuario (nombre y nombre de usuario)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                //cambiar los textos por los datos del usuario.
+                Text(
+                    text = vm.nombre +" "+ vm.apellido,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineLarge
+                )
+                Text(vm.nombreUsuario, style = MaterialTheme.typography.titleMedium)
+            }
+
+            Column {
+                TabRow(selectedTabIndex = state) {
+                    titles.forEachIndexed { index, title ->
+                        Tab(
+                            text = {Text(title)},
+                            onClick = { state = index },
+                            selected = (index == state)
+                        )
+                    }
+                }
+                if (state == 0){
+                    LazyColumn(
+                        Modifier
+                            .padding(innerPadding)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        for (p: Publicacion in publicaciones) {
+                            if (p.usuario.nombreUsuario == vm.nombreUsuario) {
+                                item {
+                                    Card(
+                                        modifier = Modifier.padding(10.dp)
+                                    ) {
+                                        Column {
+                                            Box {
+                                                Row(
+                                                    modifier = Modifier.padding(10.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+
+                                                    Image(
+                                                        painter = painterResource(id = p.usuario.fotoPerfil),
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+                                                            .clip(CircleShape)
+                                                            .size(40.dp)
+                                                    )
+                                                    Text(
+                                                        text = "@" + p.usuario.nombreUsuario,
+                                                        modifier = Modifier.padding(10.dp, 0.dp)
+                                                    )
+                                                }
+
+                                            }
+
+                                            Box {
+                                                Image(
+                                                    painter = painterResource(p.imagen),
+                                                    contentDescription = null,
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(0.dp, 10.dp, 0.dp, 5.dp)
+                                                )
+                                            }
+
+                                            Box {
+                                                Column(modifier = Modifier.padding(10.dp)) {
+                                                    Text(
+                                                        text = p.fecha + " · " + p.hora,
+                                                        fontSize = 15.sp,
+                                                        fontStyle = FontStyle.Italic
+                                                    )
+                                                    Text(
+                                                        text = p.descripcion,
+                                                        fontSize = 15.sp
+                                                    )
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+
+                                    Row(
+                                        Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.End,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+
+                                        Text(text = "" + p.likes)
+
+
+                                        var liked by remember { mutableStateOf(false) }
+
+                                        IconToggleButton(checked = liked, onCheckedChange = {
+                                            liked = !liked
+                                            if (liked) {
+                                                p.likes += 1
+                                            } else {
+                                                p.likes -= 1
+                                            }
+                                        }) {
+                                            Icon(
+                                                tint = Color(0xffE91E63), imageVector = if (liked) {
+                                                    Icons.Filled.Favorite
+                                                } else {
+                                                    Icons.Default.FavoriteBorder
+                                                }, contentDescription = null
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(state == 1){
+
+                    //Esta Columna contiene los 2 botones para ir a cambiar los datos personales y el de seguridad.
+                    Column(
+                        verticalArrangement = Arrangement.Top,
+                        modifier = Modifier
+                            .padding(top = 50.dp)
+                            .fillMaxWidth()
+                    ) {
+                        OutlinedButton(
+                            onClick = { /*TODO*/ },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
+                        )
+                        {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    "Cambiar datos personales",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                                Icon(
+                                    Icons.Filled.KeyboardArrowRight,
+                                    contentDescription = "a",
+                                    tint = Color.Black
+                                )
+                            }
+                        }
+                        OutlinedButton(
+                            onClick = { /*TODO*/ },
+                            Modifier
+                                .height(50.dp)
+                                .fillMaxWidth(),
+                            shape = RoundedCornerShape(0.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
+
+                        )
+                        {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    "Seguridad",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                                Icon(
+                                    Icons.Filled.KeyboardArrowRight,
+                                    contentDescription = "a",
+                                    tint = Color.Black
+                                )
+                            }
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            openAlertDialog.value = true
+                        }, modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp)
+                    ) {
+                        Text(text = "Log out")
+                    }
+                    when {
+                        openAlertDialog.value -> {
+                            PopUpLogin(
+                                onDismissRequest = { openAlertDialog.value = false },
+                                onConfirmation = {
+                                    openAlertDialog.value = false
+                                    println("Saliendo...")
+                                    // logica para volver al login
+                                },
+                                dialogTitle = "Alert dialog example",
+                                dialogText = "This is an example of an alert dialog with buttons."
+                            )
+                        }
+                    }
+
+                }
+            }
+
+        }
     }
 }
