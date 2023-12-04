@@ -49,11 +49,13 @@ fun Programa(vm: UsuarioViewModel, publicaciones:List<Publicacion>, usuarios:Lis
     ) {innerPadding ->
 
         NavHost(navController = ncProgram, startDestination = "Inicio") {
-            composable("Inicio") { HomeScreen(publicaciones,ncProgram,innerPadding){post -> publi = post} }
-            composable("Buscar") { SearchScreen(usuarios,innerPadding) }
-            composable("Mi Perfil") { ProfileScreen(publicaciones,vm,ncProgram,navController,innerPadding){post -> publi = post} }
-            composable("Seguridad") { SecurityScreen(innerPadding,) }
-            composable("Datos") { DataChangeScreen(vm,innerPadding) }
+            composable("Inicio") { HomeScreen(publicaciones,ncProgram,innerPadding){post -> publi = post
+                ncProgram.navigate("Publicacion") } }
+            composable("Buscar") { SearchScreen(usuarios,innerPadding,ncProgram) }
+            composable("Mi Perfil") { ProfileScreen(publicaciones,vm,ncProgram,navController,innerPadding){post -> publi = post
+                ncProgram.navigate("Publicacion")} }
+            composable("Seguridad") { SecurityScreen(innerPadding,ncProgram) }
+            composable("Datos") { DataChangeScreen(vm,innerPadding,ncProgram) }
             composable("Publicacion") { PostScreen(publi,ncProgram,innerPadding) }
             composable("Nuevo Post") { NewPostScreen(ncProgram, innerPadding)}
         }

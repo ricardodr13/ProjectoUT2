@@ -72,7 +72,6 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:2.7.5")
     implementation ("androidx.activity:activity-ktx:1.8.1")
     implementation ("com.google.android.material:material:1.4.0")
-
 }
 
 android {

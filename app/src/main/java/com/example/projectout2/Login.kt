@@ -1,6 +1,7 @@
 package com.example.projectout2
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -101,6 +102,7 @@ fun Login(vm: UsuarioViewModel,navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            Text("¿No tienes Cuenta? Registrate.", modifier = Modifier.clickable { navController.navigate("Registro") })
         }
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -110,7 +112,7 @@ fun Login(vm: UsuarioViewModel,navController: NavController) {
                     vm.obtenerUsuario(Comprobar(user,password))
                     if(vm.nombre!=""){
                         navController.navigate("Programa")
-                    }
+                    }else login = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()

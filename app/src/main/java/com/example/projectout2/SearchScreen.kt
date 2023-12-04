@@ -31,6 +31,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,10 +48,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
+fun SearchScreen(listaUsuarios: List<Usuario>, bottomPadding: PaddingValues, navegacion: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -71,10 +73,12 @@ fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Box(modifier = Modifier
-                                .height(88.dp)
-                                .fillMaxWidth(0.75f)
-                                .padding(top = 15.dp, end = 20.dp, bottom = 15.dp, start = 5.dp))
+                            Box(
+                                modifier = Modifier
+                                    .height(88.dp)
+                                    .fillMaxWidth(0.75f)
+                                    .padding(top = 15.dp, end = 20.dp, bottom = 15.dp, start = 5.dp)
+                            )
                             {
                                 TextField(
                                     value = usuarioBuscado,
@@ -114,12 +118,17 @@ fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
                                 }
                             }
                         }
-                    }
+                    },
+                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary)
 
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = {}) {
+                FloatingActionButton(onClick = {
+                    navegacion.navigate("Nuevo Post")
+                }, modifier = Modifier.padding(bottomPadding)) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                 }
             }
@@ -127,7 +136,10 @@ fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top=innerPadding.calculateTopPadding(), bottom = bottonPadding.calculateBottomPadding())
+                    .padding(
+                        top = innerPadding.calculateTopPadding(),
+                        bottom = bottomPadding.calculateBottomPadding()
+                    )
             ) {
 
 

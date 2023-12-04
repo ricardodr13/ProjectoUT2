@@ -50,13 +50,13 @@ fun NewPostScreen(navegacion: NavController, bottomPadding: PaddingValues) {
         var descripcion by remember { mutableStateOf("") }
         var imagen by remember { mutableStateOf(1) }
         var uri by remember { mutableStateOf<Uri?>(null) }
-        var singlePhotoPicker =
+        val singlePhotoPicker =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia(),
                 onResult = {
                     uri = it
                 })
 
-        LazyColumn(Modifier.padding(innerPadding)) {
+        LazyColumn(Modifier.padding(top=innerPadding.calculateTopPadding(), bottom=bottomPadding.calculateBottomPadding())) {
             item {
                 Text(
                     text = stringResource(id = R.string.TextField_TituloPublicacion),
