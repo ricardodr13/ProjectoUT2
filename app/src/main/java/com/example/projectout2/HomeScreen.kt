@@ -1,6 +1,7 @@
 package com.example.projectout2
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,18 +36,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(publicaciones: List<Publicacion>) {
+fun HomeScreen(
+    publicaciones: List<Publicacion>,
+    navegacion: NavController,
+    onClickPost: (Publicacion) -> Unit
+) {
 
     Scaffold(topBar = {
         TopAppBar(title = {
             Text("Inicio")
         })
     }, floatingActionButton = {
-        FloatingActionButton(onClick = {}) {
+        FloatingActionButton(onClick = {
+            navegacion.navigate("Nuevo Post")
+        }) {
             Icon(Icons.Default.Add, contentDescription = null)
         }
     }) { innerPadding ->
@@ -59,10 +67,12 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
             for (p: Publicacion in publicaciones) {
 
                 item {
-                    Card(
-                        modifier = Modifier.padding(10.dp)
-                    ) {
-                        Column {
+                    Card(modifier = Modifier
+                        .padding(10.dp)
+                        .clickable {
+                            onClickPost(p)
+                        }) {
+                        Column() {
                             Box {
                                 Row(
                                     modifier = Modifier.padding(10.dp),
@@ -102,8 +112,7 @@ fun HomeScreen(publicaciones: List<Publicacion>) {
                                         fontStyle = FontStyle.Italic
                                     )
                                     Text(
-                                        text = p.descripcion,
-                                        fontSize = 15.sp
+                                        text = p.descripcion, fontSize = 15.sp
                                     )
                                 }
 

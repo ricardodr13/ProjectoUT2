@@ -15,4 +15,10 @@
     <string name="TextField_nuevaPass">Nueva Contraseña</string>
     <string name="TextField_nuevaPassRep">Repite la nueva Contraseña</string>
     <!-- Fin String de SecurityScreen()-->
+    <!-- Strings de NewPostScreen -->
+    <string name="TextField_TituloPublicacion">Titulo de publicacion</string>
+    <string name="TextField_DescripcionPublicacion">Descripcion de publicacion</string>
+    <string name="Button_SubirFoto">Seleccionar foto</string>
+    <string name="Button_PublicarFoto">Publicar</string>
+    <!-- Fin String de NewPostScreen -->
 </resources>
