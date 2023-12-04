@@ -4,6 +4,7 @@ import android.os.Build
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,13 +44,18 @@ fun SignupScreen(listaUsuarios: List<Usuario>) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column {
-            val dia: List<String> = listOf("Dia") + (1..31).map { it.toString() }
-            val mes: List<String> = listOf(
+        Column(modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement
+                .Center,
+            horizontalAlignment = Alignment
+                .CenterHorizontally
+            ) {
+            var dia: List<String> = listOf("Dia") + (1..31).map { it.toString() }
+            var mes: List<String> = listOf(
                 "Mes", "enero", "febrero", "marzo", "abril", "mayo", "junio",
                 "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
             )
-            val anio: List<String> = (1900..2023).map { it.toString() }
+            var anio: List<String> = (1900..2023).map { it.toString() }
 
             var Nombreusuario by remember { mutableStateOf("") }
             var email by remember { mutableStateOf("") }
@@ -55,9 +65,14 @@ fun SignupScreen(listaUsuarios: List<Usuario>) {
             Rellenar(dato = "Nombre");
             Rellenar(dato = "Apellido")
             Nombreusuario = Rellenar(dato = "@Usuario")
-            Row {
+            Text(text = "Fecha de Nacimiento")
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Desplegable(options = dia)
+                Text(text = "/")
                 Desplegable(options = mes)
+                Text(text = "/")
                 Desplegable(options = anio)
             }
             email = Rellenar(dato = "Email")
@@ -78,10 +93,19 @@ fun SignupScreen(listaUsuarios: List<Usuario>) {
                     texto = ""
                 }
             }) {
+                Text(text = "registrarse")
 
             }
 
-            Text(text = texto)
+            Text(
+                text = texto,
+                style = LocalTextStyle.current.copy(
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                ),
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 
@@ -89,7 +113,7 @@ fun SignupScreen(listaUsuarios: List<Usuario>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Rellenar(dato: String, boolean: Boolean = false): String {
+fun Rellenar(dato: String, boolean: Boolean = false): String{
     var linea by remember { mutableStateOf("") }
 
     TextField(
@@ -100,6 +124,7 @@ fun Rellenar(dato: String, boolean: Boolean = false): String {
         label = { Text(text = dato) },
         singleLine = true,
         modifier = Modifier
+            .padding(5.dp)
             .clip(RoundedCornerShape(20.dp)),
         visualTransformation = if (boolean) {
             PasswordVisualTransformation()
@@ -107,22 +132,23 @@ fun Rellenar(dato: String, boolean: Boolean = false): String {
             VisualTransformation.None
         }
     )
+    return linea
 }
 
 @Composable
 fun Desplegable(
     options: List<String>,
-) {
+    modifier: Modifier=Modifier
+){
     var expanded by remember { mutableStateOf(false) }
-    var selectedIndex by remember { mutableStateOf(options.size - 1) }
-
+    var selectedIndex by remember { mutableStateOf(0) }
+    var ret by remember { mutableStateOf("")}
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
     ) {
         Text(
-            text = "Elige una raza para filtrar: ${options[selectedIndex]}",
+            text = "${options[selectedIndex]}",
             modifier = Modifier
                 .clickable { expanded = true }
                 .padding(16.dp)
