@@ -110,7 +110,7 @@ fun Login(vm: UsuarioViewModel,navController: NavController) {
                     vm.obtenerUsuario(Comprobar(user,password))
                     if(vm.nombre!=""){
                         navController.navigate("Programa")
-                    }
+                    }else login = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()
