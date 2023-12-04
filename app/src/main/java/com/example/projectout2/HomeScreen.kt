@@ -45,7 +45,7 @@ import androidx.navigation.NavController
 fun HomeScreen(
     publicaciones: List<Publicacion>,
     navegacion: NavController,
-    bottonPadding:PaddingValues,
+    bottomPadding: PaddingValues,
     onClickPost: (Publicacion) -> Unit
 ) {
 
@@ -56,13 +56,13 @@ fun HomeScreen(
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
             navegacion.navigate("Nuevo Post")
-        }) {
+        },modifier= Modifier.padding(bottomPadding)) {
             Icon(Icons.Default.Add, contentDescription = null)
         }
     }) { innerPadding ->
         LazyColumn(
             Modifier
-                .padding(top=innerPadding.calculateTopPadding(), bottom =bottonPadding.calculateBottomPadding())
+                .padding(top=innerPadding.calculateTopPadding(), bottom =bottomPadding.calculateBottomPadding())
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

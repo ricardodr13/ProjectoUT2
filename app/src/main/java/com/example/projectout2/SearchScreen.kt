@@ -47,10 +47,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
+fun SearchScreen(listaUsuarios: List<Usuario>, bottomPadding: PaddingValues, navegacion: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -71,10 +72,12 @@ fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Box(modifier = Modifier
-                                .height(88.dp)
-                                .fillMaxWidth(0.75f)
-                                .padding(top = 15.dp, end = 20.dp, bottom = 15.dp, start = 5.dp))
+                            Box(
+                                modifier = Modifier
+                                    .height(88.dp)
+                                    .fillMaxWidth(0.75f)
+                                    .padding(top = 15.dp, end = 20.dp, bottom = 15.dp, start = 5.dp)
+                            )
                             {
                                 TextField(
                                     value = usuarioBuscado,
@@ -119,7 +122,9 @@ fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = {}) {
+                FloatingActionButton(onClick = {
+                    navegacion.navigate("Nuevo Post")
+                }, modifier = Modifier.padding(bottomPadding)) {
                     Icon(Icons.Default.Add, contentDescription = "Add")
                 }
             }
@@ -127,7 +132,10 @@ fun SearchScreen(listaUsuarios: List<Usuario>,bottonPadding: PaddingValues) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top=innerPadding.calculateTopPadding(), bottom = bottonPadding.calculateBottomPadding())
+                    .padding(
+                        top = innerPadding.calculateTopPadding(),
+                        bottom = bottomPadding.calculateBottomPadding()
+                    )
             ) {
 
 
