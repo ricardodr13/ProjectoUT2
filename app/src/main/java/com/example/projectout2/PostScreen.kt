@@ -32,7 +32,7 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostScreen(publicacion: Publicacion, navegacion: NavController) {
+fun PostScreen(publicacion: Publicacion, navegacion: NavController, bottomPadding: PaddingValues) {
 
     Scaffold(topBar = {
         TopAppBar(title = {

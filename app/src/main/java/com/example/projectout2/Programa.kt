@@ -54,7 +54,7 @@ fun Programa(vm: UsuarioViewModel, publicaciones:List<Publicacion>, usuarios:Lis
             composable("Mi Perfil") { ProfileScreen(publicaciones,vm,ncProgram,navController,innerPadding){post -> publi = post} }
             composable("Seguridad") { SecurityScreen(innerPadding,) }
             composable("Datos") { DataChangeScreen(vm,innerPadding) }
-            composable("Publicacion") { PostScreen(publi,innerPadding) }
+            composable("Publicacion") { PostScreen(publi,ncProgram,innerPadding) }
             composable("Nuevo Post") { NewPostScreen(ncProgram, innerPadding)}
         }
 
