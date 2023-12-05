@@ -9,13 +9,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,21 +39,31 @@ import coil.compose.AsyncImage
 fun NewPostScreen(navegacion: NavController, bottomPadding: PaddingValues) {
 
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Row(
-                modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Nueva publicacion", modifier = Modifier.padding(10.dp, 0.dp)
-                )
-            }
+        TopAppBar(
+            title = {
+                Row(
+                    modifier = Modifier.padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = {
+                        navegacion.popBackStack()
+                    }) {
+                        Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "")
+                    }
+                    Text(
+                        text = "Nueva publicacion", modifier = Modifier.padding(10.dp, 0.dp)
+                    )
+                }
 
-        })
+            }, colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary
+            )
+        )
     }) { innerPadding ->
 
         var titulo by remember { mutableStateOf("") }
         var descripcion by remember { mutableStateOf("") }
-        var imagen by remember { mutableStateOf(1) }
         var uri by remember { mutableStateOf<Uri?>(null) }
         val singlePhotoPicker =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia(),
@@ -56,7 +71,12 @@ fun NewPostScreen(navegacion: NavController, bottomPadding: PaddingValues) {
                     uri = it
                 })
 
-        LazyColumn(Modifier.padding(top=innerPadding.calculateTopPadding(), bottom=bottomPadding.calculateBottomPadding())) {
+        LazyColumn(
+            Modifier.padding(
+                top = innerPadding.calculateTopPadding(),
+                bottom = bottomPadding.calculateBottomPadding()
+            )
+        ) {
             item {
                 Text(
                     text = stringResource(id = R.string.TextField_TituloPublicacion),

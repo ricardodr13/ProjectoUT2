@@ -12,16 +12,17 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,37 +36,43 @@ import androidx.navigation.NavController
 fun PostScreen(publicacion: Publicacion, navegacion: NavController, bottomPadding: PaddingValues) {
 
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Row(
-                modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically
-            ) {
-                val contextForToast = LocalContext.current.applicationContext
-                IconButton(
-                    onClick = {
-                        navegacion.popBackStack()
-                    }
+        TopAppBar(
+            title = {
+                Row(
+                    modifier = Modifier.padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "")
+                    IconButton(onClick = {
+                        navegacion.popBackStack()
+                    }) {
+                        Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "")
+                    }
+                    Image(
+                        painter = painterResource(id = publicacion.usuario.fotoPerfil),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .size(40.dp)
+                    )
+                    Text(
+                        text = "@" + publicacion.usuario.nombreUsuario,
+                        modifier = Modifier.padding(10.dp, 0.dp)
+                    )
                 }
-                Image(
-                    painter = painterResource(id = publicacion.usuario.fotoPerfil),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(40.dp)
-                )
-                Text(
-                    text = "@" + publicacion.usuario.nombreUsuario,
-                    modifier = Modifier.padding(10.dp, 0.dp)
-                )
-            }
 
-        })
+            }, colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary
+            )
+        )
     }) { innerPadding ->
 
         LazyColumn(
             Modifier
-                .padding(innerPadding)
+                .padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = bottomPadding.calculateBottomPadding()
+                )
                 .fillMaxSize()
         ) {
             item {
