@@ -24,7 +24,7 @@ data class Usuario(
 fun generarListaUsuarios(): List<Usuario> {
 
     val u1 = Usuario("Elrecoal","Ellie", "Apellido1", "1", "1", 1, R.drawable.foto)
-    val u2 = Usuario("Pepe","Zhen Yu", "Apellido2", "2", "2", 2, R.drawable.foto)
+    val u2 = Usuario("Pepe","ZhenYu", "Apellido2", "2", "2", 2, R.drawable.foto)
     val u3 = Usuario("Ricardoooo","Ricardo", "Apellido3", "3", "3", 3, R.drawable.foto)
     return listOf(u1,u2,u3)
 

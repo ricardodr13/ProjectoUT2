@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -33,79 +36,132 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(listaUsuarios: List<Usuario>) {
+fun SignupScreen( navController: NavController, listaUsuarios: List<Usuario>) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement
-                .Center,
-            horizontalAlignment = Alignment
-                .CenterHorizontally
-            ) {
-            var dia: List<String> = listOf("Dia") + (1..31).map { it.toString() }
-            var mes: List<String> = listOf(
-                "Mes", "enero", "febrero", "marzo", "abril", "mayo", "junio",
-                "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
-            )
-            var anio: List<String> = (1900..2023).map { it.toString() }
-
-            var Nombreusuario by remember { mutableStateOf("") }
-            var email by remember { mutableStateOf("") }
-            var texto by remember { mutableStateOf("") }
-            var coincidencia by remember { mutableStateOf(false) }
-
-            Rellenar(dato = "Nombre");
-            Rellenar(dato = "Apellido")
-            Nombreusuario = Rellenar(dato = "@Usuario")
-            Text(text = "Fecha de Nacimiento")
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Desplegable(options = dia)
-                Text(text = "/")
-                Desplegable(options = mes)
-                Text(text = "/")
-                Desplegable(options = anio)
-            }
-            email = Rellenar(dato = "Email")
-            Rellenar(dato = "Contraseña", true)
-
-            Button(onClick = {
-                coincidencia = false
-                for (usuario in listaUsuarios) {
-                    if (Nombreusuario.equals(usuario.nombreUsuario)) {
-                        coincidencia = true
-                        texto = "Nombre de usuario ya existente"
-                    } else if (email.equals(usuario.email, ignoreCase = true)) {
-                        coincidencia = true
-                        texto = "Correo ya registrado"
+        Scaffold(topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier.padding(10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val contextForToast = LocalContext.current.applicationContext
+                        androidx.compose.material.IconButton(
+                            onClick = {
+                                navController.popBackStack()
+                            }
+                        ) {
+                            Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "")
+                        }
+                        Text(
+                            text = "Seguridad",
+                            modifier = Modifier.padding(10.dp, 0.dp)
+                        )
                     }
-                }
-                if (coincidencia == false) {
-                    texto = ""
-                }
-            }) {
-                Text(text = "registrarse")
-
-            }
-
-            Text(
-                text = texto,
-                style = LocalTextStyle.current.copy(
-                    color = Color.Red,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                ),
-                modifier = Modifier.padding(16.dp)
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                )
             )
+        }) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .padding(top = 20.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement
+                    .Center,
+                horizontalAlignment = Alignment
+                    .CenterHorizontally
+            ) {
+                var dia: List<String> = (1..31).map { it.toString() }
+                var mes: List<String> = listOf(
+                    "enero", "febrero", "marzo", "abril", "mayo", "junio",
+                    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                )
+                var anio: List<String> = (1900..2023).map { it.toString() }
+
+                var Nombreusuario by remember { mutableStateOf("") }
+                var email by remember { mutableStateOf("") }
+                var nombre by remember { mutableStateOf("") }
+                var apellido by remember { mutableStateOf("") }
+                var contrasena by remember { mutableStateOf("") }
+                var Dia by remember { mutableStateOf(true) }
+                var Mes by remember { mutableStateOf(true) }
+                var Anio by remember { mutableStateOf(true) }
+
+                var texto by remember { mutableStateOf("") }
+                var coincidencia by remember { mutableStateOf(false) }
+
+                nombre=Rellenar(dato = "Nombre");
+                apellido=Rellenar(dato = "Apellido")
+                Nombreusuario = Rellenar(dato = "@Usuario")
+                Text(text = "Fecha de Nacimiento")
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Dia=Desplegable(options = dia)
+                    Text(text = "/")
+                    Mes=Desplegable(options = mes)
+                    Text(text = "/")
+                    Anio=Desplegable(options = anio)
+                }
+                email = Rellenar(dato = "Email")
+                contrasena=Rellenar(dato = "Contraseña", true)
+
+                Button(onClick = {
+                    if (nombre.isBlank() || apellido.isBlank() || Nombreusuario.isBlank() || email.isBlank() || contrasena.isBlank() ||
+                        Dia || Mes || Anio) {
+
+                        texto="Rellena todos los campos obligatorios"
+                    }
+                    else {
+                        coincidencia = false
+                        for (usuario in listaUsuarios) {
+                            if (Nombreusuario.equals(usuario.nombreUsuario)) {
+                                coincidencia = true
+                                texto = "Nombre de usuario ya existente"
+                            } else if (email.equals(usuario.email, ignoreCase = true)) {
+                                coincidencia = true
+                                texto = "Correo ya registrado"
+                            }
+                        }
+                        if (coincidencia == false) {
+                            texto = ""
+                            navController.popBackStack()
+                        }
+                    }
+                }) {
+                    Text(text = "Sign in")
+
+                }
+
+                Text(
+                    text = texto,
+                    style = LocalTextStyle.current.copy(
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    ),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
         }
     }
 
@@ -138,11 +194,10 @@ fun Rellenar(dato: String, boolean: Boolean = false): String{
 @Composable
 fun Desplegable(
     options: List<String>,
-    modifier: Modifier=Modifier
-){
+    modifier: Modifier=Modifier) : Boolean {
     var expanded by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(0) }
-    var ret by remember { mutableStateOf("")}
+    var n by remember { mutableStateOf(0)}
 
     Box(
         modifier = modifier
@@ -150,7 +205,9 @@ fun Desplegable(
         Text(
             text = "${options[selectedIndex]}",
             modifier = Modifier
-                .clickable { expanded = true }
+                .clickable {
+                    expanded = true
+                    n++ }
                 .padding(16.dp)
         )
         DropdownMenu(
@@ -168,5 +225,6 @@ fun Desplegable(
             }
         }
     }
+    return n == 0
 }
 

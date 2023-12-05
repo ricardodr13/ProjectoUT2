@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -111,7 +112,7 @@ fun SearchScreen(listaUsuarios: List<Usuario>, bottomPadding: PaddingValues, nav
                                         }
                                     },
                                     modifier = Modifier
-                                        .padding(top = 10.dp)
+                                        .padding(top = 5.dp)
                                         .fillMaxWidth()
                                 ) {
                                     Text(text = "Buscar")
