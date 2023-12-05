@@ -21,9 +21,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,9 +52,14 @@ fun HomeScreen(
 ) {
 
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text("Inicio")
-        })
+        TopAppBar(
+            title = {
+                Text("Inicio")
+            }, colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary
+            )
+        )
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
             navegacion.navigate("Nuevo Post")
@@ -66,7 +73,8 @@ fun HomeScreen(
                     top = innerPadding.calculateTopPadding(),
                     bottom = bottomPadding.calculateBottomPadding()
                 )
-                .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             for (p: Publicacion in publicaciones) {
 
@@ -74,9 +82,7 @@ fun HomeScreen(
                     Card(
                         onClick = { onClickPost(p) },
                         modifier = Modifier.padding(10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.LightGray,
-                        )
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                     ) {
                         Column() {
                             Box {

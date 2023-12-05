@@ -149,9 +149,8 @@ fun ProfileScreen(
                                         onClick={OnClickPost(p)},
                                         modifier = Modifier
                                             .padding(10.dp),
-                                        colors = CardDefaults.cardColors(
-                                            containerColor = Color.LightGray,
-                                        )
+                                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+
                                     ) {
                                         Column {
                                             Box {
